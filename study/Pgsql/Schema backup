@@ -1,0 +1,393 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.15
+-- Dumped by pg_dump version 14.1
+
+-- Started on 2023-10-27 10:53:58
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 5 (class 2615 OID 16408)
+-- Name: notice; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA notice;
+
+
+ALTER SCHEMA notice OWNER TO postgres;
+
+--
+-- TOC entry 205 (class 1259 OID 16431)
+-- Name: board_id_seq; Type: SEQUENCE; Schema: notice; Owner: postgres
+--
+
+CREATE SEQUENCE notice.board_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE notice.board_id_seq OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 206 (class 1259 OID 16451)
+-- Name: board; Type: TABLE; Schema: notice; Owner: postgres
+--
+
+CREATE TABLE notice.board (
+    board_id integer DEFAULT nextval('notice.board_id_seq'::regclass) NOT NULL,
+    board_title character varying(50) NOT NULL,
+    board_content character varying(2000) NOT NULL,
+    board_date timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    user_id character varying(30) NOT NULL
+);
+
+
+ALTER TABLE notice.board OWNER TO postgres;
+
+--
+-- TOC entry 2868 (class 0 OID 0)
+-- Dependencies: 206
+-- Name: COLUMN board.board_id; Type: COMMENT; Schema: notice; Owner: postgres
+--
+
+COMMENT ON COLUMN notice.board.board_id IS '게시물 고유 번호';
+
+
+--
+-- TOC entry 2869 (class 0 OID 0)
+-- Dependencies: 206
+-- Name: COLUMN board.board_title; Type: COMMENT; Schema: notice; Owner: postgres
+--
+
+COMMENT ON COLUMN notice.board.board_title IS '게시물 제목';
+
+
+--
+-- TOC entry 2870 (class 0 OID 0)
+-- Dependencies: 206
+-- Name: COLUMN board.board_content; Type: COMMENT; Schema: notice; Owner: postgres
+--
+
+COMMENT ON COLUMN notice.board.board_content IS '게시물 내용';
+
+
+--
+-- TOC entry 2871 (class 0 OID 0)
+-- Dependencies: 206
+-- Name: COLUMN board.board_date; Type: COMMENT; Schema: notice; Owner: postgres
+--
+
+COMMENT ON COLUMN notice.board.board_date IS '게시 날짜';
+
+
+--
+-- TOC entry 2872 (class 0 OID 0)
+-- Dependencies: 206
+-- Name: COLUMN board.user_id; Type: COMMENT; Schema: notice; Owner: postgres
+--
+
+COMMENT ON COLUMN notice.board.user_id IS '사용자 아이디';
+
+
+--
+-- TOC entry 210 (class 1259 OID 16503)
+-- Name: board_file; Type: TABLE; Schema: notice; Owner: postgres
+--
+
+CREATE TABLE notice.board_file (
+    file_id integer NOT NULL,
+    board_id integer NOT NULL,
+    file_name character varying(255) NOT NULL,
+    stored_file_name character varying(255) NOT NULL,
+    file_size integer NOT NULL,
+    upload_date timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    file_path character varying(255) NOT NULL
+);
+
+
+ALTER TABLE notice.board_file OWNER TO postgres;
+
+--
+-- TOC entry 2873 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: COLUMN board_file.file_id; Type: COMMENT; Schema: notice; Owner: postgres
+--
+
+COMMENT ON COLUMN notice.board_file.file_id IS '파일 고유 번호';
+
+
+--
+-- TOC entry 2874 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: COLUMN board_file.board_id; Type: COMMENT; Schema: notice; Owner: postgres
+--
+
+COMMENT ON COLUMN notice.board_file.board_id IS '해당 파일이 첨부된 게시물의 번호';
+
+
+--
+-- TOC entry 2875 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: COLUMN board_file.file_name; Type: COMMENT; Schema: notice; Owner: postgres
+--
+
+COMMENT ON COLUMN notice.board_file.file_name IS '원본 파일 이름';
+
+
+--
+-- TOC entry 2876 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: COLUMN board_file.stored_file_name; Type: COMMENT; Schema: notice; Owner: postgres
+--
+
+COMMENT ON COLUMN notice.board_file.stored_file_name IS '서버에 저장된 파일 이름';
+
+
+--
+-- TOC entry 2877 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: COLUMN board_file.file_size; Type: COMMENT; Schema: notice; Owner: postgres
+--
+
+COMMENT ON COLUMN notice.board_file.file_size IS '파일 크기';
+
+
+--
+-- TOC entry 2878 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: COLUMN board_file.upload_date; Type: COMMENT; Schema: notice; Owner: postgres
+--
+
+COMMENT ON COLUMN notice.board_file.upload_date IS '파일 업로드 날짜';
+
+
+--
+-- TOC entry 2879 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: COLUMN board_file.file_path; Type: COMMENT; Schema: notice; Owner: postgres
+--
+
+COMMENT ON COLUMN notice.board_file.file_path IS '파일의 저장 경로';
+
+
+--
+-- TOC entry 209 (class 1259 OID 16501)
+-- Name: board_file_file_id_seq; Type: SEQUENCE; Schema: notice; Owner: postgres
+--
+
+CREATE SEQUENCE notice.board_file_file_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE notice.board_file_file_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2880 (class 0 OID 0)
+-- Dependencies: 209
+-- Name: board_file_file_id_seq; Type: SEQUENCE OWNED BY; Schema: notice; Owner: postgres
+--
+
+ALTER SEQUENCE notice.board_file_file_id_seq OWNED BY notice.board_file.file_id;
+
+
+--
+-- TOC entry 207 (class 1259 OID 16468)
+-- Name: review_id_seq; Type: SEQUENCE; Schema: notice; Owner: postgres
+--
+
+CREATE SEQUENCE notice.review_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE notice.review_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 208 (class 1259 OID 16470)
+-- Name: review; Type: TABLE; Schema: notice; Owner: postgres
+--
+
+CREATE TABLE notice.review (
+    review_id integer DEFAULT nextval('notice.review_id_seq'::regclass) NOT NULL,
+    board_id integer NOT NULL,
+    review_title character varying(50),
+    review_content character varying(2000),
+    review_date timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    writer_id character varying(30) NOT NULL
+);
+
+
+ALTER TABLE notice.review OWNER TO postgres;
+
+--
+-- TOC entry 2881 (class 0 OID 0)
+-- Dependencies: 208
+-- Name: COLUMN review.review_id; Type: COMMENT; Schema: notice; Owner: postgres
+--
+
+COMMENT ON COLUMN notice.review.review_id IS '댓글 고유 번호';
+
+
+--
+-- TOC entry 2882 (class 0 OID 0)
+-- Dependencies: 208
+-- Name: COLUMN review.board_id; Type: COMMENT; Schema: notice; Owner: postgres
+--
+
+COMMENT ON COLUMN notice.review.board_id IS '게시판 고유 번호';
+
+
+--
+-- TOC entry 2883 (class 0 OID 0)
+-- Dependencies: 208
+-- Name: COLUMN review.review_title; Type: COMMENT; Schema: notice; Owner: postgres
+--
+
+COMMENT ON COLUMN notice.review.review_title IS '게시물 제목';
+
+
+--
+-- TOC entry 2884 (class 0 OID 0)
+-- Dependencies: 208
+-- Name: COLUMN review.review_content; Type: COMMENT; Schema: notice; Owner: postgres
+--
+
+COMMENT ON COLUMN notice.review.review_content IS '게시물 내용';
+
+
+--
+-- TOC entry 2885 (class 0 OID 0)
+-- Dependencies: 208
+-- Name: COLUMN review.review_date; Type: COMMENT; Schema: notice; Owner: postgres
+--
+
+COMMENT ON COLUMN notice.review.review_date IS '게시 날짜';
+
+
+--
+-- TOC entry 2886 (class 0 OID 0)
+-- Dependencies: 208
+-- Name: COLUMN review.writer_id; Type: COMMENT; Schema: notice; Owner: postgres
+--
+
+COMMENT ON COLUMN notice.review.writer_id IS '댓글 단 사용자 아이디';
+
+
+--
+-- TOC entry 204 (class 1259 OID 16420)
+-- Name: user; Type: TABLE; Schema: notice; Owner: postgres
+--
+
+CREATE TABLE notice."user" (
+    user_id character varying(255) NOT NULL,
+    user_password character varying(255) NOT NULL,
+    user_name character varying(100) NOT NULL
+);
+
+
+ALTER TABLE notice."user" OWNER TO postgres;
+
+--
+-- TOC entry 2724 (class 2604 OID 16506)
+-- Name: board_file file_id; Type: DEFAULT; Schema: notice; Owner: postgres
+--
+
+ALTER TABLE ONLY notice.board_file ALTER COLUMN file_id SET DEFAULT nextval('notice.board_file_file_id_seq'::regclass);
+
+
+--
+-- TOC entry 2733 (class 2606 OID 16511)
+-- Name: board_file board_file_pkey; Type: CONSTRAINT; Schema: notice; Owner: postgres
+--
+
+ALTER TABLE ONLY notice.board_file
+    ADD CONSTRAINT board_file_pkey PRIMARY KEY (file_id);
+
+
+--
+-- TOC entry 2729 (class 2606 OID 16459)
+-- Name: board board_pkey; Type: CONSTRAINT; Schema: notice; Owner: postgres
+--
+
+ALTER TABLE ONLY notice.board
+    ADD CONSTRAINT board_pkey PRIMARY KEY (board_id);
+
+
+--
+-- TOC entry 2731 (class 2606 OID 16478)
+-- Name: review reivew_pkey; Type: CONSTRAINT; Schema: notice; Owner: postgres
+--
+
+ALTER TABLE ONLY notice.review
+    ADD CONSTRAINT reivew_pkey PRIMARY KEY (review_id);
+
+
+--
+-- TOC entry 2727 (class 2606 OID 16427)
+-- Name: user user_pkey; Type: CONSTRAINT; Schema: notice; Owner: postgres
+--
+
+ALTER TABLE ONLY notice."user"
+    ADD CONSTRAINT user_pkey PRIMARY KEY (user_id);
+
+
+--
+-- TOC entry 2736 (class 2606 OID 16512)
+-- Name: board_file fk_board_id; Type: FK CONSTRAINT; Schema: notice; Owner: postgres
+--
+
+ALTER TABLE ONLY notice.board_file
+    ADD CONSTRAINT fk_board_id FOREIGN KEY (board_id) REFERENCES notice.board(board_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 2735 (class 2606 OID 16554)
+-- Name: review fk_board_id; Type: FK CONSTRAINT; Schema: notice; Owner: postgres
+--
+
+ALTER TABLE ONLY notice.review
+    ADD CONSTRAINT fk_board_id FOREIGN KEY (board_id) REFERENCES notice.board(board_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 2734 (class 2606 OID 16460)
+-- Name: board fk_user_id; Type: FK CONSTRAINT; Schema: notice; Owner: postgres
+--
+
+ALTER TABLE ONLY notice.board
+    ADD CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES notice."user"(user_id);
+
+
+-- Completed on 2023-10-27 10:53:58
+
+--
+-- PostgreSQL database dump complete
+--
+
