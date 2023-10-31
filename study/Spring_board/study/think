@@ -7,11 +7,12 @@
 7. 명명규칙을 제대로 적용한다.
 8. 스프링의 전체적인 코드 구성을 이해하고 설명할 수 있어야 한다.
 
-ResponseBody
-
+@ResponseBody
+ResponseBody가 붙은 메소드들이나 클래스는 모두 데이터를 전달해주기 위한 용이다 뷰 반환(X)
 @Requestbody @ModelAttribute 차이
   @Requestbody
     보통 json형태의 데이터를 받아서 객체로 바인딩 한다.
     getter와 setter가 없더라도 정상 동작한다 --> message converter로 자바 객체로 바꾸는 것이기 때문에 주입이 아닌 변환으로 인한 할당
   @ModelAttribute
     폼 형태의 Http Body와 요청 파라미터를 객체에 바인딩 시킨다. --> setter에 주입해서 사용
+    json형태는 처리하지 못한다.
