@@ -1,0 +1,7 @@
+web.xml 이란?
+  내 Web application의 설정파일이다.
+  어플리케이션을 실행할 때 메모리에 로드된다.
+   DispatcherServlet 설정
+   ContextLoaderListener 설정 
+   Filter 설정 등등
+    
