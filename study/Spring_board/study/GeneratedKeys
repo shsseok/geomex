@@ -1,0 +1,12 @@
+게시글 업로드를 할 때 게시글이 업로드가 되면서 해당 게시물 번호를 바로 반환후 파일을 업로드 하는 로직이 필요했다.
+이에 대해서 
+1.
+  @Options(useGeneratedKeys = true, keyProperty = "boardId")  
+  int insertBoard(BoardVo boardVo);
+  mapper 위에 이러한 방식으로 넣어주거나
+2.
+  <insert id="insertBoard" parameterType="geomex.notice.model.BoardVo" useGeneratedKeys="true" keyProperty="boardId">
+  	 	 INSERT INTO notice.board (board_title, board_content, board_date, user_id)
+  	 	 VALUES (#{boardTitle}, #{boardContent}, CURRENT_TIMESTAMP, #{userId}) 
+	</insert>
+  이러한 방식으로 속성 값을 넣어주면 BoardVo에 boardId가 실려서 가지고 와진다. get으로 꺼내쓰면 가능하다
