@@ -22,4 +22,11 @@
 interceptor에서 
 response.sendRedirect(loginURI);  //String loginURI = request.getContextPath() + "/login.do"; // 로그인 페이지의 URI
 이런식으로 사용할 때 /Spring_board/login.do 인데 이는 말그대로 절대경로로 해석 된다 / -> 루트를 기준이기 때문에
-그냥 "login.do" 이런식으로 사용하게 되면 현재 내가 있는 url의 위치 즉 폴더에서의 login.do를 지칭한다 정확히 명시하기 위해서 저런식으로 지정 
+그냥 "login.do" 이런식으로 사용하게 되면 현재 내가 있는 url의 위치 즉 폴더에서의 login.do를 지칭한다 정확히 명시하기 위해서 저런식으로 지정
+
+
+@GetMapping("/login.do")
+@GetMapping("login.do")
+둘다 같은 의미 이다. 
+
+스프링의 요청 매핑 어노테이션은 항상 애플리케이션의 컨텍스트 루트(context root)를 기준으로 경로를 매핑한다.
