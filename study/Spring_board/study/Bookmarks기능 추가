@@ -1,0 +1,15 @@
+테이블 생성
+CREATE TABLE notice.bookmarks
+(
+  bookmark_id serial NOT NULL, -- 북마크의 고유 식별자
+  user_id character varying NOT NULL, -- 북마크를 추가한 사용자의 식별자
+  bookmark_board_id integer NOT NULL, -- 북마크된 게시판의 게시물 식별자
+  CONSTRAINT bookmarks_pkey PRIMARY KEY (bookmark_id), -- 북마크 테이블의 기본 키
+  CONSTRAINT fk_board FOREIGN KEY (bookmark_board_id)
+      REFERENCES notice.board (board_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE, -- 북마크된 게시판의 게시물 ID를 참조하는 외래 키
+  CONSTRAINT fk_user FOREIGN KEY (user_id)
+      REFERENCES notice."user" (user_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE, -- 북마크를 추가한 사용자의 ID를 참조하는 외래 키
+  CONSTRAINT bookmarks_user_id_board_id_key UNIQUE (user_id, bookmark_board_id) -- 사용자별 북마크된 게시판의 게시물 ID는 유일해야 함
+)
