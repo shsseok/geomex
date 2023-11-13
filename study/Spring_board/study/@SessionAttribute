@@ -1,0 +1,2 @@
+@SessionAttribute 이 어노테이셔은 만약에 세션이 없다면 null갑이 들어오는것이 아니라 
+ServletRequestBindingException 예외가 발생한다.
