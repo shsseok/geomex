@@ -1,1 +1,28 @@
-
+@GetMapping("/boardView.do")
+	public String getBoardById(Model model, 
+	@RequestParam(defaultValue = "no") String viewSet,
+	@RequestParam int boardId,
+	HttpSession session) {
+		
+		HashSet<Integer> viewedBoards = (HashSet<Integer>) session.getAttribute("viewedBoard");
+		if(viewedBoards==null)
+		{
+			viewedBoards=new HashSet<>();
+			session.setAttribute("viewedBoard",viewedBoards);
+		}
+		if (viewSet.equals("yes") && !viewedBoards.contains(boardId)) {
+			boardService.viewsCount(boardId);
+			viewedBoards.add(boardId);
+		}
+		BoardVo board = boardService.getBoardById(boardId);
+		ArrayList<FileVo> files = fileService.getFileById(boardId);
+		model.addAttribute("board", board);
+		model.addAttribute("files", files);
+		return "boardView";
+	}
+코드 설명
+기존에는 조회수 증가를 위해서 viewSet을 파라미터로 바인딩하여 viewSet이 yes인것만 조회수가 늘어나도록 했다 이는 무분별한 페이지의 이동별로 boardView페이지에 접근
+하기만 하면 무한급수적으로 조회수가 올라가는 문제를 보완하기 위해서 였다 dafultValue속성을 ="no"로 받고 사용자가 직접 boardView페이지로 이동
+할때만 조회수가 올라갔다. 하지만 무한급수적으로 페이지 내에서 새로고침을 한다면 이 또한 버그가 발생하였다. 이를 해결하기 위해서 session에 viewdBoard라는
+HashSet을 담아 사용자가 조회할 때마다 해당 게시물을 넣어서 무한급수적으로 조회수가 올라 가는 것을 방지할 수 있고 세션이 유요하는 동안 즉 로그인이 되어있는 동안에는
+하나의 게시물당 조회수가 무조건 하나만 증가할 수 있도록 수정하였다.
